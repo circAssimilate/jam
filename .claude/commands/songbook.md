@@ -21,7 +21,7 @@ If there are multiple songs, spawn a **subagent per song** using the Agent tool 
 
 2. **Get scale suggestions** by calling the `suggest_scales` MCP tool with the song's key, then call `generate_scale` for each suggested scale (3 total) to get ASCII tab diagrams.
 
-3. **Format the entry** using the exact format specified in CLAUDE.md under "Songbook entry format". Construct the `Lyrics:` Google search URL by fully percent-encoding the title and artist using `encodeURIComponent()` (JavaScript) or `urllib.parse.quote()` (Python), then wrap each encoded term in `%22` and join the three parts with `+`. Example for "Use Me" by Bill Withers: `https://www.google.com/search?q=%22Use%20Me%22+%22Bill%20Withers%22+full+lyrics`. For a title like "It's Alright (Ma)" `encodeURIComponent` gives `It%27s%20Alright%20%28Ma%29`, so the full URL part would be `%22It%27s%20Alright%20%28Ma%29%22`.
+3. **Format the entry** using the exact format specified in CLAUDE.md under "Songbook entry format". Construct the `Lyrics:` Google search URL by fully percent-encoding the title and artist using `encodeURIComponent()` (JavaScript) or `urllib.parse.quote(term, safe="")` (Python — note `safe=""` so slashes are also encoded), then wrap each encoded term in `%22` and join the three parts with `+`. Example for "Use Me" by Bill Withers: `https://www.google.com/search?q=%22Use%20Me%22+%22Bill%20Withers%22+full+lyrics`. For a title like "It's Alright (Ma)" `encodeURIComponent` gives `It%27s%20Alright%20%28Ma%29`, so the full URL part would be `%22It%27s%20Alright%20%28Ma%29%22`.
 
 4. **Return the complete formatted entry** as text.
 
