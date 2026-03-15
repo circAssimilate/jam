@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import {
   Document,
+  ExternalHyperlink,
   Packer,
   Paragraph,
   TextRun,
@@ -13,21 +14,45 @@ interface SongEntry {
   content: string;
 }
 
+function lineToParagraph(line: string): Paragraph {
+  // Detect "Lyrics:  <url>" lines and render the URL as a clickable hyperlink.
+  const lyricsMatch = line.match(/^(Lyrics:\s+)(https?:\/\/\S+)$/);
+  if (lyricsMatch) {
+    const [, label, url] = lyricsMatch;
+    return new Paragraph({
+      children: [
+        new TextRun({ text: label, font: "Courier New", size: 20 }),
+        new ExternalHyperlink({
+          link: url,
+          children: [
+            new TextRun({
+              text: url,
+              font: "Courier New",
+              size: 20,
+              style: "Hyperlink",
+            }),
+          ],
+        }),
+      ],
+      spacing: { after: 0, line: 240 },
+    });
+  }
+
+  return new Paragraph({
+    children: [
+      new TextRun({
+        text: line || " ",
+        font: "Courier New",
+        size: 20, // 10pt
+      }),
+    ],
+    spacing: { after: 0, line: 240 }, // single spacing
+  });
+}
+
 function songToParagraphs(song: SongEntry, isLast: boolean): Paragraph[] {
   const lines = song.content.split("\n");
-  const paragraphs: Paragraph[] = lines.map(
-    (line) =>
-      new Paragraph({
-        children: [
-          new TextRun({
-            text: line || " ",
-            font: "Courier New",
-            size: 20, // 10pt
-          }),
-        ],
-        spacing: { after: 0, line: 240 }, // single spacing
-      })
-  );
+  const paragraphs: Paragraph[] = lines.map(lineToParagraph);
 
   if (!isLast) {
     paragraphs.push(

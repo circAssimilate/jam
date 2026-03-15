@@ -21,7 +21,7 @@ If there are multiple songs, spawn a **subagent per song** using the Agent tool 
 
 2. **Get scale suggestions** by calling the `suggest_scales` MCP tool with the song's key, then call `generate_scale` for each suggested scale (3 total) to get ASCII tab diagrams.
 
-3. **Format the entry** using the exact format specified in CLAUDE.md under "Songbook entry format".
+3. **Format the entry** using the exact format specified in CLAUDE.md under "Songbook entry format". Construct the `Lyrics:` Google search URL by URL-encoding the title and artist: replace spaces with `+`, wrap each term in `%22` (double-quotes), and append `+full+lyrics`. Example for "Use Me" by Bill Withers: `https://www.google.com/search?q=%22Use+Me%22+%22Bill+Withers%22+full+lyrics`
 
 4. **Return the complete formatted entry** as text.
 
