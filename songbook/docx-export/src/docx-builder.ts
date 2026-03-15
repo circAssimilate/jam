@@ -16,7 +16,7 @@ interface SongEntry {
 
 function lineToParagraph(line: string): Paragraph {
   // Detect "Lyrics:  <url>" lines and render the URL as a clickable hyperlink.
-  const lyricsMatch = line.match(/^(Lyrics:\s+)(https?:\/\/\S+)$/);
+  const lyricsMatch = line.match(/^(Lyrics:\s+)(https?:\/\/\S+?)\s*$/);
   if (lyricsMatch) {
     const [, label, url] = lyricsMatch;
     return new Paragraph({
@@ -51,7 +51,7 @@ function lineToParagraph(line: string): Paragraph {
 }
 
 function songToParagraphs(song: SongEntry, isLast: boolean): Paragraph[] {
-  const lines = song.content.split("\n");
+  const lines = song.content.split(/\r?\n/);
   const paragraphs: Paragraph[] = lines.map(lineToParagraph);
 
   if (!isLast) {
