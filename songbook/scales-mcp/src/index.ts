@@ -12,6 +12,7 @@ const server = new McpServer({
 
 const scaleTypeEnum = Object.keys(SCALE_TYPES) as [ScaleType, ...ScaleType[]];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- works around TS2589 in MCP SDK type inference
 server.tool(
   "generate_scale",
   `Generate ASCII guitar tab diagrams for scale positions.
@@ -23,28 +24,29 @@ Supported scales: ${scaleTypeEnum.join(", ")}`,
     tuning: z.enum(["standard", "open-e"]).default("standard").describe("Guitar tuning"),
     positions: z.array(z.number().int().min(1).max(5)).default([1])
       .describe("Box positions to generate (1–5)"),
-  },
-  async (args) => {
+  } as any,
+  async (args: any) => {
     const result = generateScale(args.key, args.scaleType, args.tuning, args.positions);
     const output = result
-      .map((pos) => `${pos.label}\n${pos.tab}`)
+      .map((pos: { label: string; tab: string }) => `${pos.label}\n${pos.tab}`)
       .join("\n\n");
-    return { content: [{ type: "text", text: output }] };
+    return { content: [{ type: "text" as const, text: output }] };
   }
 );
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- works around TS2589 in MCP SDK type inference
 server.tool(
   "suggest_scales",
   "Given a song's key, suggest 3 appropriate scales to include in a songbook entry.",
   {
     key: z.string().describe('The song key, e.g. "A minor", "G major"'),
-  },
-  async (args) => {
+  } as any,
+  async (args: any) => {
     const suggestions = suggestScales(args.key);
     return {
       content: [{
-        type: "text",
-        text: `Suggested scales for ${args.key}:\n${suggestions.map((s, i) => `${i + 1}. ${s}`).join("\n")}`,
+        type: "text" as const,
+        text: `Suggested scales for ${args.key}:\n${suggestions.map((s: string, i: number) => `${i + 1}. ${s}`).join("\n")}`,
       }],
     };
   }
