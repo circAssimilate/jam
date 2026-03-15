@@ -57,7 +57,7 @@ When transposing, prefer sharps when going up and flats when going down (e.g. C#
    - Preserve chord quality exactly (e.g. `m`, `7`, `maj7`, `sus4`, `dim`, `aug`, `/bass-note`, etc.).
    - Transpose any slash-chord bass note by the same offset.
    - Leave lyric placeholder lines (e.g. `[Verse 1 - see official lyrics source]`) and section labels (e.g. `[Verse 1]`) unchanged.
-   - For Open E tuning sections, transpose the fret-number chord references (e.g. `E(0) A(5) B(7)`) to their equivalent positions in the new key.
+   - For Open E tuning sections, the fret-number references (e.g. `E(0) A(5) B(7)`) are position-based and depend on the Open E tuning's fixed open strings. Rather than attempting to re-derive fret positions (which requires knowing the original voicing), **preserve the existing tokens as-is and append `[UNVERIFIED - please check]`** so the player can verify the correct positions for the new key.
 
 6. **Update the header block:**
    - Change the `Key:` field to the new key.

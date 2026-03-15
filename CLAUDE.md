@@ -12,12 +12,16 @@ Every songbook entry must follow this exact format:
 ============================================================
 Title:   [Song Title]
 Artist:  [Artist]
+Lyrics:  https://www.google.com/search?q=%22Song%20Title%22+%22Artist%22+full+lyrics
 Key:     [Sounding key, e.g. "A minor"]
 Capo:    [Fret number or "None"]
 Tuning:  [e.g. "Standard (EADGBe)" or "Open E (EBE G#Be)"]
 Tempo:   [~NNN bpm]
 ============================================================
 ```
+
+The `Lyrics:` URL is a Google search link for the song's full lyrics. Construct it by fully percent-encoding the title and artist (using `encodeURIComponent` or equivalent — e.g. spaces → `%20`, `'` → `%27`, `&` → `%26`, `(` → `%28`), wrapping each encoded term in `%22`, and joining the three parts with `+`. For example, for "Use Me" by Bill Withers the URL is:
+`https://www.google.com/search?q=%22Use%20Me%22+%22Bill%20Withers%22+full+lyrics`
 
 ### Sections
 
