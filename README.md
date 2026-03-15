@@ -2,7 +2,7 @@
 
 [![License: PolyForm Noncommercial 1.0.0](https://img.shields.io/badge/License-PolyForm%20Noncommercial%201.0.0-blue)](LICENSE)
 
-A Claude Code-powered guitar songbook generator. Use the `/songbook` slash command inside Claude Code to research any song and produce a formatted, print-ready songbook entry with chords, structure, and scale reference diagrams.
+A Claude Code-powered guitar songbook generator. Use the `/songbook.create` slash command inside Claude Code to research any song and produce a formatted, print-ready songbook entry with chords, structure, and scale reference diagrams. Use `/songbook.transpose` to transpose an existing entry to a new key.
 
 ## Quick start
 
@@ -16,9 +16,9 @@ cd ../..
 # 2. Open Claude Code
 claude
 
-# 3. Use the /songbook command
-/songbook Use Me - Bill Withers
-/songbook Cissy Strut by The Meters; Superstition - Stevie Wonder
+# 3. Use the /songbook.create command
+/songbook.create Use Me - Bill Withers
+/songbook.create Cissy Strut by The Meters; Superstition - Stevie Wonder
 ```
 
 ## What you get
@@ -31,20 +31,33 @@ For each song, Claude researches and produces:
 
 ## How it works
 
-- `/songbook` triggers a [custom slash command](.claude/commands/songbook.md) that Claude Code expands into a structured prompt
+- `/songbook.create` triggers a [custom slash command](.claude/commands/songbook.create.md) that Claude Code expands into a structured prompt
 - For multiple songs, Claude spawns **parallel subagents** (one per song) so they're researched simultaneously
 - Each subagent uses **WebSearch** to find song details and the **songbook-scales** MCP server to generate accurate scale tabs
 - Results are formatted per the spec in [CLAUDE.md](CLAUDE.md)
 - Claude can export entries to `.docx` via the `/docx` skill
+
+## Transposing entries
+
+Use `/songbook.transpose` to shift an existing entry to a new key:
+
+```
+/songbook.transpose output/use-me.md to G minor
+/songbook.transpose output/use-me.md up 1 step
+/songbook.transpose output/use-me.md down 2 half steps
+```
+
+Claude will transpose all chords, update the key in the header, regenerate the scale diagrams for the new key, and save the result to a new file in `output/`.
 
 ## Project structure
 
 ```
 jam/
   .claude/
-    commands/songbook.md    # /songbook slash command
-    settings.json           # MCP server configuration
-  CLAUDE.md                 # songbook format spec (always loaded by Claude Code)
+    commands/songbook.create.md    # /songbook.create slash command
+    commands/songbook.transpose.md # /songbook.transpose slash command
+    settings.json                  # MCP server configuration
+  CLAUDE.md                        # songbook format spec (always loaded by Claude Code)
   songbook/
     scales-mcp/             # MCP server for scale tab generation
       src/
