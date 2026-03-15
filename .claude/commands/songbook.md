@@ -28,11 +28,10 @@ If there are multiple songs, spawn a **subagent per song** using the Agent tool 
 After all subagents complete, the main conversation should:
 
 1. Collect all formatted entries
-2. Present them in the conversation as a single output
-3. If Google Docs MCP tools are available (check for `mcp__google-docs__*` tools):
-   - Ask the user if they want to push to Google Docs
-   - If yes, create a new doc or append to an existing one
-4. If no Google Docs MCP, output the entries as a combined markdown document
+2. Save each entry to `output/` as a `.md` file (e.g. `output/use-me.md`). Use a sanitized lowercase kebab-case filename based on the song title.
+3. Present the entries in the conversation
+4. Ask the user if they want to export to a .docx file
+5. If yes, use the `/docx` skill to generate a .docx from the combined entries
 
 ## Important rules
 

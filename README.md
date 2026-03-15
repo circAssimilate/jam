@@ -33,7 +33,7 @@ For each song, Claude researches and produces:
 - For multiple songs, Claude spawns **parallel subagents** (one per song) so they're researched simultaneously
 - Each subagent uses **WebSearch** to find song details and the **songbook-scales** MCP server to generate accurate scale tabs
 - Results are formatted per the spec in [CLAUDE.md](CLAUDE.md)
-- If a Google Docs MCP is configured, Claude offers to push entries to a Google Doc
+- Claude can export entries to `.docx` via the `/docx` skill
 
 ## Project structure
 
@@ -48,7 +48,7 @@ jam/
       src/
         index.ts            # MCP server (stdio transport)
         scales.ts           # scale computation engine
-    SETUP.md                # full setup guide including Google Docs MCP
+    SETUP.md                # full setup guide
 ```
 
 ## Scales MCP server
@@ -60,6 +60,6 @@ Exposes two tools to Claude Code:
 | `generate_scale` | ASCII tab for any key/scale/tuning/position. Supports: minor pentatonic, major pentatonic, blues, dorian, mixolydian, natural minor, major |
 | `suggest_scales` | Recommends 3 scales for a given key |
 
-## Google Docs (optional)
+## Exporting to .docx
 
-See [songbook/SETUP.md](songbook/SETUP.md) for instructions on configuring a Google Docs MCP server. Without it, songbook entries are output as formatted text in the Claude Code conversation.
+After generating songbook entries, Claude can export them to a `.docx` file using the `/docx` skill. This lets you print or share entries outside of Claude Code.

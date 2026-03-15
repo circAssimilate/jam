@@ -89,4 +89,6 @@ Scale 3: A Dorian
 ## Project structure
 
 - `.claude/commands/songbook.md` — the `/songbook` slash command
+- `.claude/commands/docx.md` — the `/docx` export command
 - `songbook/scales-mcp/` — MCP server for scale tab generation
+- `songbook/docx-export/` — CLI tool to export songbook entries to `.docx`
