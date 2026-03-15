@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "songbook-scales": {
+      "command": "node",
+      "args": ["songbook/scales-mcp/dist/index.js"]
+    }
+  }
+}
