@@ -23,12 +23,20 @@ cd ~/Development/jam
 claude
 ```
 
-Then use the `/songbook` command:
+Then use the `/songbook.create` command:
 
 ```
-/songbook Cissy Strut by The Meters
-/songbook Use Me - Bill Withers; Superstition - Stevie Wonder
-/songbook Ain't No Sunshine, Bill Withers; Brick House, The Commodores; Pick Up the Pieces, Average White Band
+/songbook.create Cissy Strut by The Meters
+/songbook.create Use Me - Bill Withers; Superstition - Stevie Wonder
+/songbook.create Ain't No Sunshine, Bill Withers; Brick House, The Commodores; Pick Up the Pieces, Average White Band
+```
+
+To transpose an existing entry to a new key, use `/songbook.transpose`:
+
+```
+/songbook.transpose output/use-me.md to G minor
+/songbook.transpose output/use-me.md up 1 step
+/songbook.transpose output/use-me.md down 3 half steps
 ```
 
 ### What happens
