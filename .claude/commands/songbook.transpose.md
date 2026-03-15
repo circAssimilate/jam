@@ -12,15 +12,15 @@ Transpose a previously created songbook entry to a new key: $ARGUMENTS
 
 2. **Transpose by direction/interval:**
    `<filepath> <direction> <amount> <unit>`
+   where `<unit>` is matched as a complete multi-word token:
+   - `step` or `steps` — whole tone (2 semitones)
+   - `half step` or `half steps` — semitone (1 semitone); treat `half step` as a single two-word unit, not as `half` + `step`
+
    Examples:
    - `output/use-me.md up 1 step`
    - `output/use-me.md down 2 steps`
    - `output/use-me.md up 1 half step`
    - `output/use-me.md down 3 half steps`
-
-Units:
-- `step` / `steps` = whole tone = 2 semitones
-- `half step` / `half steps` = semitone = 1 semitone
 
 If the arguments are ambiguous, use AskUserQuestion to clarify before proceeding.
 
