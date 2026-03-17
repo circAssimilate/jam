@@ -68,12 +68,10 @@ When transposing, prefer sharps when going up and flats when going down (e.g. C#
    - Call `generate_scale` for each of the 3 suggested scales.
    - Replace the existing `--- SCALE REFERENCE ---` section with the new diagrams.
 
-8. **Save the transposed entry:**
-   - Write the result to `output/<original-filename-base>-<target-key-slug>.md`
-     (e.g. `output/use-me-g-minor.md`). The key slug should be lowercase kebab-case.
-   - Present the full transposed entry in the conversation.
-
-9. **Ask the user** if they want to export the transposed entry to a `.docx` file. If yes, use the `/docx` skill.
+8. **Export the transposed entry** as a new `.docx` file using the `/docx` skill.
+   - The script will automatically name it `output/Artist - Title (Key).docx` using the new key.
+   - Do **not** overwrite or delete the original file.
+   - Present the full transposed entry in the conversation and tell the user where the new file was saved.
 
 ## Important rules
 

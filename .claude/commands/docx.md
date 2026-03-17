@@ -21,16 +21,12 @@ Extract each entry as:
    {
      "songs": [
        { "title": "Song Title", "artist": "Artist Name", "content": "...full entry text..." }
-     ],
-     "outputPath": "output/Artist Name - Song Title (Key).docx"
+     ]
    }
    ```
-   **Filename rules** (when `$ARGUMENTS` is not provided):
-   - For a single song: `output/Artist Name - Song Title (Key).docx`
-     - Use the sounding key from the `Key:` field (e.g. "E minor", "G major")
-     - Use plain spaces — **no underscores**
-     - Example: `output/Bill Withers - Use Me (E minor).docx`
-   - For multiple songs: `output/songbook-YYYY-MM-DD.docx`
+   The script automatically names each file `Artist Name - Song Title (Key).docx` in the `output/` directory — one file per song, even when multiple songs are provided. No `outputPath` is needed.
+
+   If `$ARGUMENTS` is provided, pass it as `"outputPath"` to write a single combined file instead.
 
 3. Pipe the JSON to the script via Bash. Use a heredoc for the JSON to handle special characters:
    ```bash

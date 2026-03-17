@@ -46,31 +46,42 @@ async function main() {
     process.exit(1);
   }
 
-  let outputPath: string;
-  if (input.outputPath) {
-    outputPath = input.outputPath;
-  } else if (input.songs.length === 1) {
-    const song = input.songs[0];
-    const key = extractKey(song.content);
-    const base = `${song.artist} - ${song.title} (${key})`;
-    const safe = base.replace(/[\/\\:*?"<>|]/g, "");
-    outputPath = `output/${safe}.docx`;
-  } else {
-    const date = new Date().toISOString().slice(0, 10);
-    outputPath = `output/songbook-${date}.docx`;
-  }
-  const outputDir = path.dirname(outputPath);
+  const outputDir = input.outputPath
+    ? path.dirname(input.outputPath)
+    : "output";
 
   fs.mkdirSync(outputDir, { recursive: true });
 
-  try {
-    await buildDocx(input.songs, outputPath);
-    console.log(`Created: ${outputPath}`);
-  } catch (err) {
-    console.error(`docx generation failed: ${err}`);
-    console.error("Falling back to individual .md files.");
-    const paths = writeMdFallback(input.songs, outputDir);
-    paths.forEach((p) => console.log(`Created: ${p}`));
+  // When a single explicit outputPath is given, write one combined file
+  if (input.outputPath && input.songs.length > 0) {
+    try {
+      await buildDocx(input.songs, input.outputPath);
+      console.log(`Created: ${input.outputPath}`);
+    } catch (err) {
+      console.error(`docx generation failed: ${err}`);
+      console.error("Falling back to individual .md files.");
+      const paths = writeMdFallback(input.songs, outputDir);
+      paths.forEach((p) => console.log(`Created: ${p}`));
+    }
+    return;
+  }
+
+  // Default: one .docx per song, named "Artist - Title (Key).docx"
+  for (const song of input.songs) {
+    const key = extractKey(song.content);
+    const base = `${song.artist} - ${song.title} (${key})`;
+    const safe = base.replace(/[\/\\:*?"<>|]/g, "");
+    const outputPath = path.join(outputDir, `${safe}.docx`);
+
+    try {
+      await buildDocx([song], outputPath);
+      console.log(`Created: ${outputPath}`);
+    } catch (err) {
+      console.error(`docx generation failed for "${song.title}": ${err}`);
+      console.error("Falling back to .md for this song.");
+      const paths = writeMdFallback([song], outputDir);
+      paths.forEach((p) => console.log(`Created: ${p}`));
+    }
   }
 }
 
