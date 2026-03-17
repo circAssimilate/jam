@@ -46,7 +46,7 @@ For Open E / slide sections:
 ```
 
 Rules:
-- **Never include copyrighted lyrics** — always use placeholders like `[Verse 1 - see official lyrics source]`
+- When lyrics are not available, use placeholders like `[Verse 1 - see official lyrics source]`
 - Chord lines use monospace alignment — position chords above where they fall
 - Mark any unverified field with `[UNVERIFIED - please check]`
 
