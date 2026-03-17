@@ -14,6 +14,12 @@ interface ExportInput {
   outputPath?: string;
 }
 
+function extractKey(content: string): string {
+  const match = content.match(/^Key:\s+(.+)$/m);
+  if (!match) return "Unknown";
+  return match[1].replace(/\s*\[UNVERIFIED.*$/, "").trim();
+}
+
 function readStdin(): Promise<string> {
   return new Promise((resolve, reject) => {
     let data = "";
@@ -40,8 +46,19 @@ async function main() {
     process.exit(1);
   }
 
-  const date = new Date().toISOString().slice(0, 10);
-  const outputPath = input.outputPath || `output/songbook-${date}.docx`;
+  let outputPath: string;
+  if (input.outputPath) {
+    outputPath = input.outputPath;
+  } else if (input.songs.length === 1) {
+    const song = input.songs[0];
+    const key = extractKey(song.content);
+    const base = `${song.artist} - ${song.title} (${key})`;
+    const safe = base.replace(/[\/\\:*?"<>|]/g, "");
+    outputPath = `output/${safe}.docx`;
+  } else {
+    const date = new Date().toISOString().slice(0, 10);
+    outputPath = `output/songbook-${date}.docx`;
+  }
   const outputDir = path.dirname(outputPath);
 
   fs.mkdirSync(outputDir, { recursive: true });

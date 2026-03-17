@@ -28,10 +28,11 @@ If there are multiple songs, spawn a **subagent per song** using the Agent tool 
 After all subagents complete, the main conversation should:
 
 1. Collect all formatted entries
-2. Save each entry to `output/` as a `.md` file (e.g. `output/use-me.md`). Use a sanitized lowercase kebab-case filename based on the song title.
-3. Present the entries in the conversation
-4. Ask the user if they want to export to a .docx file
-5. If yes, use the `/docx` skill to generate a .docx from the combined entries
+2. Export to `.docx` by default using the `/docx` skill. This is the primary output format.
+3. If `.docx` export fails, the script automatically falls back to `.md` files using the naming convention:
+   - Single song: `output/Artist Name - Song Title (Key).md`
+   - Multiple songs: individual `.md` files per song, each named `Artist Name - Song Title (Key).md`
+4. Present the entries in the conversation and tell the user where the files were saved
 
 ## Important rules
 
