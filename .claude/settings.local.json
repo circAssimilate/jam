@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cd:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx ts-node:*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(npm view:*)",
+      "Bash(echo:*)",
+      "WebFetch(domain:github.github.com)",
+      "Bash(curl:*)",
+      "Bash(node:*)",
+      "Read(//Users/dhammond/.npm/_npx/0097334179b74481/node_modules/google-docs-mcp/build/**)",
+      "Bash(npx -y google-docs-mcp --help)"
+    ]
+  }
+}
