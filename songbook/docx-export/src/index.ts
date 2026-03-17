@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { buildDocx } from "./docx-builder";
+import { readDocx } from "./docx-reader";
 import { writeMdFallback } from "./md-fallback";
 
 interface SongEntry {
@@ -31,6 +32,19 @@ function readStdin(): Promise<string> {
 }
 
 async function main() {
+  // --read mode: extract text from a .docx file and print to stdout
+  if (process.argv[2] === "--read" && process.argv[3]) {
+    const filePath = process.argv[3];
+    try {
+      const text = readDocx(filePath);
+      process.stdout.write(text);
+    } catch (err) {
+      console.error(`Failed to read .docx: ${err}`);
+      process.exit(1);
+    }
+    return;
+  }
+
   const raw = await readStdin();
   let input: ExportInput;
 

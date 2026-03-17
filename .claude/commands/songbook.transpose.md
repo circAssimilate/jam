@@ -7,8 +7,8 @@ Transpose a previously created songbook entry to a new key: $ARGUMENTS
 1. **Transpose to a specific key:**
    `<filepath> to <key>`
    Examples:
-   - `output/use-me.md to G minor`
-   - `output/cissy-strut.md to Bb major`
+   - `output/use-me.docx to G minor`
+   - `output/cissy-strut.docx to Bb major`
 
 2. **Transpose by direction/interval:**
    `<filepath> <direction> <amount> <unit>`
@@ -17,10 +17,10 @@ Transpose a previously created songbook entry to a new key: $ARGUMENTS
    - `half step` or `half steps` — semitone (1 semitone); treat `half step` as a single two-word unit, not as `half` + `step`
 
    Examples:
-   - `output/use-me.md up 1 step`
-   - `output/use-me.md down 2 steps`
-   - `output/use-me.md up 1 half step`
-   - `output/use-me.md down 3 half steps`
+   - `output/use-me.docx up 1 step`
+   - `output/use-me.docx down 2 steps`
+   - `output/use-me.docx up 1 half step`
+   - `output/use-me.docx down 3 half steps`
 
 If the arguments are ambiguous, use AskUserQuestion to clarify before proceeding.
 
@@ -42,6 +42,12 @@ When transposing, prefer sharps when going up and flats when going down (e.g. C#
 ## Workflow
 
 1. **Read the source file** at the path provided in `$ARGUMENTS`.
+   - If the file is a `.docx`, extract its text content by running:
+     ```bash
+     node songbook/docx-export/dist/index.js --read "<filepath>"
+     ```
+     If `dist/index.js` does not exist, first run `cd songbook/docx-export && npm install && npm run build && cd ../..`
+   - If the file is `.md` or plain text, read it directly.
 
 2. **Determine the current key** from the `Key:` field in the header block.
 
